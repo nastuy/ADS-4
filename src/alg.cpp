@@ -57,15 +57,24 @@ int binarySearch(int* arr, int left, int right, int target) {
 }
 int countPairs3(int *arr, int len, int value) {
   int count = 0;
-  for (int i = 0; i < len; i++) {
+  for (int i = 0; i < len; ++i) {
     int target = value - arr[i];
-    int pos = binarySearch(arr, i + 1, len - 1, target);
-    if (pos != -1) {
-      count++;
-      int j = pos + 1;
-      while (j < len && arr[j] == target) {
-        count++;
-        j++;
+    if (target >= arr[i]) {
+      int left = i + 1;
+      int right = len - 1;
+      while (left <= right && arr[right] > target) {
+        right--;
+      }
+      if (left <= right) {
+        int pos = binarySearch(arr, left, right, target);
+        if (pos != -1) {
+          count++;
+          int j = pos + 1;
+          while (j <= right && arr[j] == target) {
+            count++;
+            j++;
+          }
+        }
       }
     }
   }
